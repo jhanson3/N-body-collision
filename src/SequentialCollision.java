@@ -9,6 +9,7 @@
 public class SequentialCollision {
 
 	public static void main(String[] args) {
-		
+		ColliderGUI gui = new ColliderGUI();
+		gui.setVisible(true);
 	}
 }
