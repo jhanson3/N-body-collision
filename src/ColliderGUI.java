@@ -1,4 +1,8 @@
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -15,8 +19,9 @@ public class ColliderGUI extends JFrame{
 	 */
 	private static final long serialVersionUID = -4681843281978083821L;
 	
-	JPanel view;
+	private JPanel view;
 	private Body[] body;
+	private JButton forward, backward;
 	
 	/*
 	 * Constructor
@@ -29,9 +34,23 @@ public class ColliderGUI extends JFrame{
 		this.setSize(1100, 1100);
 		this.setLocation(100, 100);
 		this.setTitle("N-Body Collisions");
+		this.setLayout(null);
 		view = new DrawView();
 		
 		this.add(view);
+		
+		forward = new JButton("Next");
+		backward = new JButton("Previous");
+		forward.addActionListener(new ButtonListener());
+		backward.addActionListener(new ButtonListener());
+		
+		forward.setSize(100, 50);
+		forward.setLocation(800, 900);
+		backward.setSize(100, 50);
+		backward.setLocation(200, 900);
+		this.add(forward);
+		this.add(backward);
+		
 	}
 	
 	/*
@@ -44,6 +63,24 @@ public class ColliderGUI extends JFrame{
 	 */
 	public void draw(Body[] body) {
 		this.body = body;
+	}
+	
+	/*
+	 * ButtonListener
+	 * Author: Jeremiah Hanson
+	 * ----------------------------------------------
+	 * listener for the buttons
+	 */
+	public class ButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			
+			if (arg0.getSource() == forward) {
+				
+			}
+		}
+		
 	}
 	
 	/*
