@@ -11,7 +11,8 @@ import com.sun.javafx.geom.Vec2d;
 
 public class Body {
 
-	double mass, width, height;
+	double mass;
+	int size;
 	Vec2d vel;
 	Point pos;
 	
@@ -20,12 +21,42 @@ public class Body {
 	 * Author: Jeremiah Hanson
 	 * ---------------------------------------
 	 * constructor
+	 * Parameters:
+	 * 	mass: mass of the body
+	 * 	vel: velocity of the body
+	 * 	pos: position of the body
+	 * 	size: size of the body
 	 */
-	public Body(double mass, Vec2d vel, Point pos) {
+	public Body(double mass, Vec2d vel, Point pos, int size) {
 		this.mass = mass;
 		this.vel = vel;
 		this.pos  = pos;
-		this.width = 10;
-		this.height = 10;
+		this.size = size;
+	}
+	
+	/*
+	 * Constructor
+	 * Author: Jeremiah Hanson
+	 * ---------------------------------------
+	 * constructor
+	 * Parameters:
+	 * 	mass: mass of the body
+	 * 	size: size of the body
+	 */
+	public Body(double mass, int size) {
+		this.mass = mass;
+		this.size = size;
+	}
+	
+	public int getX() {
+		return pos.x;
+	}
+	
+	public int getY() {
+		return pos.y;
+	}
+	
+	public int getSize() {
+		return size;
 	}
 }

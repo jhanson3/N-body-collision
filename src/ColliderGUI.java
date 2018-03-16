@@ -1,5 +1,4 @@
 import java.awt.Graphics;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -17,6 +16,7 @@ public class ColliderGUI extends JFrame{
 	private static final long serialVersionUID = -4681843281978083821L;
 	
 	JPanel view;
+	private Body[] body;
 	
 	/*
 	 * Constructor
@@ -26,12 +26,24 @@ public class ColliderGUI extends JFrame{
 	 */
 	public ColliderGUI() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(2000, 1000);
+		this.setSize(1100, 1100);
 		this.setLocation(100, 100);
 		this.setTitle("N-Body Collisions");
 		view = new DrawView();
 		
 		this.add(view);
+	}
+	
+	/*
+	 * draw
+	 * Author: Jeremiah Hanson
+	 * --------------------------------------------
+	 * Purpose: draws the bodies
+	 * Parameters:
+	 * 	body: an array of Bodies
+	 */
+	public void draw(Body[] body) {
+		this.body = body;
 	}
 	
 	/*
@@ -48,7 +60,12 @@ public class ColliderGUI extends JFrame{
 		private static final long serialVersionUID = -158235515021115934L;
 
 		public void paintComponent(Graphics g){
-	           g.fillOval(100, 100, 100, 100);
+	           if (body == null)
+	        	   return;
+	           
+	           for (int i = 0; i < body.length; i++) {
+	        	   g.fillOval(body[i].getX(), body[i].getY(), body[i].getSize(), body[i].getSize());
+	           }
 	         }
 	}
 
