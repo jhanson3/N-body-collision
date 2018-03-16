@@ -42,7 +42,7 @@ public class SequentialCollision {
 			x += i * (1000/bodies);
 			Point p = new Point(x, rand.nextInt(1000));
 			Vec2d v = new Vec2d(rand.nextInt(100), rand.nextInt(100));
-			body[i] = new Body(10, v, p, bodySize);
+			body[i] = new Body(10, v, p, bodySize, timeSteps);
 		}
 		
 		ColliderGUI gui = new ColliderGUI();
