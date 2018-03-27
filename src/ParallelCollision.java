@@ -136,6 +136,7 @@ public class ParallelCollision {
 		printAll();
 		
 		System.out.printf("Time: %.9f", ((double)(end-start)/1000000000));
+		System.out.println();
 		
 		if (gui) {
 			ColliderGUI gui = new ColliderGUI(body, timeSteps);

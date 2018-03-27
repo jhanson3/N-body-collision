@@ -1,0 +1,4 @@
+Jeremiah Hanson
+N-Body Collision Report
+
+For this project I first created a sequential program that 
