@@ -1,4 +1,52 @@
 Jeremiah Hanson
 N-Body Collision Report
 
-For this project I first created a sequential program that 
+For this project I first created a sequential program that creates the required body objects. It sets the speed of the objects randomly and the direction towards the middle of the field. Then the program runs through the calculations to determine where each body will go for the next time step. If collisions are detected then it will change the velocities of both objects based on the given formulas then continue to calculate the remaining positions. After all bodies have been given new positions, the current positions and velocities are stored in an array held by each body object. 
+
+The parallel program creates the bodies in a similar manner but the calculations are done differently. It requires at least two threads because one thread is dedicated to calculating the collision. I did it this way because collisions are not always going to happen every time step and when they do happen its not always going to have to calculate collisions for every object. Then then remaining threads are given out bodies to calculate positions for distributed evenly.
+
+For both programs, the results are written to a file and the times are printed to stdout. None of this is part of the timing. to test the functionality of the programs I created a simple gui that draws each step and is controlled by two buttons, one for going forward and one for going back. This gui is run by adding an argument "true" to the end of the first 4 arguments.
+
+Following are some of the results of my testing, which I did on Oxford.
+
+test1: java SequentialCollision 5 30 50 1000
+			time: 0.200
+	   java ParallelCollision 5 30 50 1000
+	   		time: 0.366
+	   java ParallelCollision 9 30 50 1000
+	   		time: 0.330
+	   java ParallelCollision 25 30 50 1000
+	   		time: 0.618
+	   java ParallelCollision 32 30 50 1000
+	   		time: 0.656
+
+test2: java SequentialCollision 5 30 50 10000
+			time: 1.255
+	   java ParallelCollision 5 30 50 10000
+	   		time: 1.274
+	   java ParallelCollision 9 30 50 10000
+	   		time: 2.029
+	   java ParallelCollision 25 30 50 10000
+	   		time: 5.834
+	   java ParallelCollision 32 30 50 10000
+	   		time: 6.394
+	   		
+test3: java SequentialCollision 5 30 50 100000
+			time: 9.723
+	   java ParallelCollision 5 30 50 1000000
+	   		time: 10.259
+	   java ParallelCollision 9 30 50 100000
+	   		time: 0.330
+	   java ParallelCollision 25 30 50 100000
+	   		time: 0.618
+	   java ParallelCollision 32 30 50 100000
+	   		time: 0.656	   		
+	   		
+	   		
+	   		
+	   		
+	   		
+	   		
+	   		
+	   		
+	   		

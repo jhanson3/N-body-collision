@@ -45,9 +45,7 @@ public class SequentialCollision {
 		
 		// create random and set seed
 		Random rand = new Random();
-		if (args.length >= 5) {
-			rand.setSeed(Integer.parseInt(args[4]));
-		}
+		rand.setSeed(1234567890);
 		
 		body = new Body[bodies];
 		
