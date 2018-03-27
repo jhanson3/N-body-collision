@@ -10,7 +10,7 @@ all: classes
 
 default: classes
 
-classes: $(CLASSES:.java=.class)
+classes: 
 	JC Body.java ColliderGUI.java CollisionWorker.java ParallelCollision.java SequentialCollision.java Worker.java
 
 clean:
