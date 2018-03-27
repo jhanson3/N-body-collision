@@ -9,39 +9,49 @@ For both programs, the results are written to a file and the times are printed t
 
 Following are some of the results of my testing, which I did on Oxford.
 
-test1: java SequentialCollision 5 30 50 1000
-			time: 0.200
+test1: java SequentialCollision 1 30 50 1000
+			time: 0.189
+	   java ParallelCollision 4 30 50 100000
+	   		time: 0.292
 	   java ParallelCollision 5 30 50 1000
-	   		time: 0.366
+	   		time: 0.356
 	   java ParallelCollision 9 30 50 1000
-	   		time: 0.330
+	   		time: 0.417
 	   java ParallelCollision 25 30 50 1000
-	   		time: 0.618
+	   		time: 0.602
 	   java ParallelCollision 32 30 50 1000
-	   		time: 0.656
+	   		time: 0.652
 
-test2: java SequentialCollision 5 30 50 10000
-			time: 1.255
+test2: java SequentialCollision 1 30 50 10000
+			time: 1.064
+	   java ParallelCollision 4 30 50 10000
+	   		time: 1.239
 	   java ParallelCollision 5 30 50 10000
-	   		time: 1.274
+	   		time: 1.598
 	   java ParallelCollision 9 30 50 10000
-	   		time: 2.029
+	   		time: 1.528
 	   java ParallelCollision 25 30 50 10000
-	   		time: 5.834
+	   		time: 5.553
 	   java ParallelCollision 32 30 50 10000
-	   		time: 6.394
+	   		time: 6.753
 	   		
-test3: java SequentialCollision 5 30 50 100000
-			time: 9.723
+test3: java SequentialCollision 1 30 50 100000
+			time: 9.320
+	   java ParallelCollision 4 30 50 100000
+	   		time: 6.986
 	   java ParallelCollision 5 30 50 1000000
-	   		time: 10.259
+	   		time: 11.252
 	   java ParallelCollision 9 30 50 100000
-	   		time: 0.330
-	   java ParallelCollision 25 30 50 100000
-	   		time: 0.618
-	   java ParallelCollision 32 30 50 100000
-	   		time: 0.656	   		
+	   		time: 19.038
 	   		
+test4: java SequentialCollision 1 40 50 100000
+			time: 15.429
+	   java ParallelCollision 4 40 50 100000
+	   		time: 9.466
+	   java ParallelCollision 5 40 50 1000000
+	   		time: 10.754
+
+From these results I have come to the conclusion that for only a few time steps its more efficient to run this program sequentially. However, once the time steps get closer to 100,000 running with four processes was faster. Then by added 10 more bodies, running with 5 processes became faster than only 1 but slower than 4. Since Oxford is running with 4 cores it makes sense that the four thread version would be the best of the parallel programs since it can run one thread per core. This reminded me that my main thread is still active so I ran test 4 again with only 3 threads and the time was 8.280. I think to improve this I would need to put the main thread to sleep till all the others have finished.
 	   		
 	   		
 	   		
