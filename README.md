@@ -3,7 +3,7 @@
 
 This is a project that will have two parts. A sequential program and a parallel program to calculate 2d body collisions
 
-## Run
+## How to Run
 
 This program takes four requited arguments as follows:
 	1: number of threads (sequential ignores this, but it is still required)
