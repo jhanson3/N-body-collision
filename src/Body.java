@@ -1,5 +1,3 @@
-import java.awt.Point;
-
 import com.sun.javafx.geom.Vec2d;
 
 /*
@@ -13,9 +11,9 @@ public class Body {
 
 	double mass;
 	int size, timeSteps;
-	Vec2d vel;
-	Point pos;
-	Positions position;
+	Vec2d vel, pos, force;
+	Positions positions;
+	int collide;
 	
 	/*
 	 * Constructor
@@ -28,14 +26,17 @@ public class Body {
 	 * 	pos: position of the body
 	 * 	size: size of the body
 	 */
-	public Body(double mass, Vec2d vel, Point pos, int size, int steps) {
+	public Body(double mass, Vec2d pos, Vec2d vel, int size, int steps) {
 		this.mass = mass;
 		this.vel = vel;
 		this.pos  = pos;
+		this.force = new Vec2d(0, 0);
 		this.size = size;
 		this.timeSteps = steps;
-		position = new Positions();
-		position.addPos(pos, vel);
+		positions = new Positions();
+		positions.addPos(pos, vel);
+		
+		collide = -1;
 	}
 	
 	/*
@@ -52,16 +53,84 @@ public class Body {
 		this.size = size;
 	}
 	
-	public int getX() {
+	public int getCollide() {
+		return collide;
+	}
+	
+	public void setCollide(int c) {
+		collide = c;
+	}
+	
+	public void removeCollide() {
+		collide = -1;
+	}
+	
+	public synchronized double getX() {
 		return pos.x;
 	}
 	
-	public int getY() {
+	public synchronized double getY() {
 		return pos.y;
+	}
+	
+	public synchronized double getVX() {
+		return vel.x;
+	}
+	
+	public synchronized double getVY() {
+		return vel.y;
+	}
+	
+	public double getFX() {
+		return force.x;
+	}
+	
+	public double getFY() {
+		return force.y;
+	}
+	
+	public void setX(double x) {
+		pos.x = x;
+	}
+	
+	public void setY(double y) {
+		pos.y = y;
+	}
+	
+	public void setVX(double x) {
+		vel.x = x;
+	}
+	
+	public void setVY(double y) {
+		vel.y = y;
+	}
+	
+	public void setFX(double x) {
+		force.x = x;
+	}
+	
+	public void setFY(double y) {
+		force.y = y;
 	}
 	
 	public int getSize() {
 		return size;
+	}
+	
+	public Vec2d Position(int n) {
+		return positions.getPoint(n);
+	}
+	
+	public Vec2d Velocity(int n) {
+		return positions.getVel(n);
+	}
+	
+	public Vec2d Force(int n) {
+		return positions.getForce(n);
+	}
+	
+	public void addLast() {
+		positions.addPos(pos, vel);
 	}
 	
 	/*
@@ -72,8 +141,9 @@ public class Body {
 	 */
 	private class Positions {
 		
-		Point[] pos;
+		Vec2d[] pos;
 		Vec2d[] vel;
+		Vec2d[] force;
 		int last;
 		
 		/*
@@ -83,7 +153,7 @@ public class Body {
 		 * constructor
 		 */
 		public Positions() {
-			pos = new Point[timeSteps];
+			pos = new Vec2d[timeSteps];
 			vel = new Vec2d[timeSteps];
 			last = 0;
 		}
@@ -96,7 +166,7 @@ public class Body {
 		 * Parameters: 
 		 * 	index: the index to get
 		 */
-		public Point getPoint(int index) {
+		public Vec2d getPoint(int index) {
 			return pos[index];
 		}
 		
@@ -112,6 +182,10 @@ public class Body {
 			return vel[index];
 		}
 		
+		public Vec2d getForce(int index) {
+			return force[index];
+		}
+		
 		/*
 		 * addPos
 		 * Author: Jeremiah Hanson
@@ -121,9 +195,9 @@ public class Body {
 		 * 	point: the pos to add 
 		 *  velocity: the velocity to add
 		 */
-		public void addPos(Point point, Vec2d velocity) {
-			pos[last] = point;
-			vel[last] = velocity;
+		public void addPos(Vec2d position, Vec2d velocity) {
+			pos[last] = new Vec2d(position);
+			vel[last] = new Vec2d(velocity);
 			last++;
 		}
 		

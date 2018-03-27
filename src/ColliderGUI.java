@@ -20,8 +20,8 @@ public class ColliderGUI extends JFrame{
 	private static final long serialVersionUID = -4681843281978083821L;
 	
 	private JPanel view;
-	private Body[] body;
 	private JButton forward, backward;
+	private int step, totalSteps;
 	
 	/*
 	 * Constructor
@@ -29,13 +29,15 @@ public class ColliderGUI extends JFrame{
 	 * -------------------------------
 	 * constructor
 	 */
-	public ColliderGUI() {
+	public ColliderGUI(Body[] body, int numSteps) {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1100, 1100);
 		this.setLocation(100, 100);
 		this.setTitle("N-Body Collisions");
 		this.setLayout(null);
-		view = new DrawView();
+		view = new DrawView(body);
+		totalSteps = numSteps;
+		step = 0;
 		
 		this.add(view);
 		
@@ -51,18 +53,9 @@ public class ColliderGUI extends JFrame{
 		this.add(forward);
 		this.add(backward);
 		
-	}
-	
-	/*
-	 * draw
-	 * Author: Jeremiah Hanson
-	 * --------------------------------------------
-	 * Purpose: draws the bodies
-	 * Parameters:
-	 * 	body: an array of Bodies
-	 */
-	public void draw(Body[] body) {
-		this.body = body;
+		redraw();
+
+		
 	}
 	
 	/*
@@ -77,10 +70,25 @@ public class ColliderGUI extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			
 			if (arg0.getSource() == forward) {
-				
+				if (step < totalSteps-1)
+					step++;
+				view.repaint();
 			}
+			else if (arg0.getSource() == backward) {
+				if (step > 0)
+					step--;
+				view.repaint();
+			}
+			
+			redraw();
+
 		}
 		
+	}
+	
+	public void redraw() {
+		this.add(forward);
+		this.add(backward);
 	}
 	
 	/*
@@ -95,13 +103,20 @@ public class ColliderGUI extends JFrame{
 		 * Automatically generated serial number
 		 */
 		private static final long serialVersionUID = -158235515021115934L;
+		private Body[] body;
+		
+		public DrawView(Body[] body) {
+			this.body = body;
+			this.setSize(1300, 1000);
+		}
 
 		public void paintComponent(Graphics g){
 	           if (body == null)
 	        	   return;
 	           
+	           g.clearRect(0, 0, 1300, 1000);
 	           for (int i = 0; i < body.length; i++) {
-	        	   g.fillOval(body[i].getX(), body[i].getY(), body[i].getSize(), body[i].getSize());
+	        	   g.fillOval((int)body[i].Position(step).x, (int)body[i].Position(step).y, body[i].getSize(), body[i].getSize());
 	           }
 	         }
 	}

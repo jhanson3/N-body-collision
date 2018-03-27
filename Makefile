@@ -1,0 +1,16 @@
+JFLAGS = -g
+JC = javac
+.SUFFIXES: .java .class
+.java.class:
+	$(JC) $(JFLAGS) $*.java
+
+CLASSES = Body.java ColliderGUI.java CollisionWorker.java ParallelCollision.java SequentialCollision.java Worker.java
+
+all: classes
+
+default: classes
+
+classes: $(CLASSES:.java=.class)
+
+clean:
+	$(RM) *.class
