@@ -2,15 +2,18 @@ import java.util.concurrent.BrokenBarrierException;
 
 public class CollisionWorker implements Runnable{
 
-	private int bodies;
+	private int bodies, steps;
 	
-	public CollisionWorker(int bodies){
+	public CollisionWorker(int bodies, int steps){
 		this.bodies = bodies;
+		this.steps = steps;
 	}
 	
 	@Override
 	public void run() {
-		while (true) {
+		int cursteps = 1;
+		while (cursteps < steps) {
+			//System.out.println("collisionWorker waiting");
 			try {
 				//System.out.println("barrier hit");
 				ParallelCollision.barrier.await();
@@ -18,8 +21,11 @@ public class CollisionWorker implements Runnable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			//System.out.println("collisionWorker continues");
 			collision();
+			cursteps++;
 		}
+		//System.out.println("CollisionWorker Done");
 	}
 	
 	public void collision() {

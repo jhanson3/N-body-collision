@@ -11,6 +11,7 @@ public class Worker implements Runnable{
 		this.timeSteps = steps;
 		this.start = start;
 		this.stop = stop;
+		this.bodySize = bodySize;
 	}
 	
 	@Override
@@ -19,13 +20,15 @@ public class Worker implements Runnable{
 		
 		while(step < timeSteps) {
 			moveOneStep();
+			//System.out.println("worker waiting");
 			try {
 				//System.out.println("waiting");
 				ParallelCollision.barrier.await();
 			} catch (InterruptedException | BrokenBarrierException e) {
-				// TODO Auto-generated catch block
+				//System.out.println("broken something");
 				e.printStackTrace();
 			}
+			//System.out.println("worker continues");
 			
 			for (int i = start; i < stop; i++) {
 				ParallelCollision.body[i].addLast();
@@ -35,6 +38,7 @@ public class Worker implements Runnable{
 			
 			step++;
 		}
+		//System.out.println("Worker Done");
 		
 	}
 	
@@ -45,9 +49,11 @@ public class Worker implements Runnable{
 			Vec2d nextPos = new Vec2d(ParallelCollision.body[i].getX() + ParallelCollision.body[i].getVX(), ParallelCollision.body[i].getY() + ParallelCollision.body[i].getVY());
 			
 			for (int j = 0; j < i; j++) {
+				//System.out.println("Checking for Collision detected between " + i + " and " + j);
 				if (Math.abs(nextPos.x - ParallelCollision.body[j].getX()) < bodySize && Math.abs(nextPos.y - ParallelCollision.body[j].getY()) < bodySize) {
 					ParallelCollision.body[i].setCollide(j);
 					ParallelCollision.body[j].setCollide(i);
+					//System.out.println("Collision detected between " + i + " and " + j);
 				}
 			}
 			
@@ -55,6 +61,7 @@ public class Worker implements Runnable{
 				if (Math.abs(nextPos.x - ParallelCollision.body[j].getX()) < bodySize && Math.abs(nextPos.y - ParallelCollision.body[j].getY()) < bodySize) {
 					ParallelCollision.body[i].setCollide(j);
 					ParallelCollision.body[j].setCollide(i);
+					//System.out.println("Collision detected between " + i + " and " + j);
 				}
 			}
 			

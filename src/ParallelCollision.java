@@ -26,7 +26,6 @@ public class ParallelCollision {
 	
 	public static int ready, workers, curStep;
 
-	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 		
 		if (args.length < 4) {
@@ -96,7 +95,7 @@ public class ParallelCollision {
 		
 		start = System.nanoTime();
 
-		collisionWorker = new Thread(new CollisionWorker(bodies));
+		collisionWorker = new Thread(new CollisionWorker(bodies, timeSteps));
 		collisionWorker.start();
 		
 		for (int i = 0; i < workers; i++) {
@@ -117,8 +116,9 @@ public class ParallelCollision {
 				if (!workersList[n].isAlive())
 					done++;
 			}
-			if (done == workers)
-				collisionWorker.stop();
+			if (!collisionWorker.isAlive()) done++;
+			
+			if (done == workers + 1)
 				break;
 		}
 		
