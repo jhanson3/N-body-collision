@@ -20,6 +20,7 @@ public class SequentialCollision {
 	private static Body[] body;
 	private static final double M = 1000;
 	private static final double SPEED_CONST = 1;
+	private static boolean gui;
 
 	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 		
@@ -31,6 +32,15 @@ public class SequentialCollision {
 			bodies    = Integer.parseInt(args[1]);
 			bodySize  = Integer.parseInt(args[2]);
 			timeSteps = Integer.parseInt(args[3]);
+		}
+		
+		gui = false;
+		if (args.length == 5) {
+			if (args[4].equals("true")) {
+				gui = true;
+			} else {
+				gui = false;
+			}
 		}
 		
 		// create random and set seed
@@ -87,9 +97,11 @@ public class SequentialCollision {
 		
 		System.out.printf("Time: %.9f", ((double)(end-start)/1000000000));
 		
-		ColliderGUI gui = new ColliderGUI(body, timeSteps);
-		gui.setVisible(true);
-		gui.repaint();
+		if (gui) {
+			ColliderGUI gui = new ColliderGUI(body, timeSteps);
+			gui.setVisible(true);
+			gui.repaint();
+		}
 	}
 	
 	public static void moveOneStep() {

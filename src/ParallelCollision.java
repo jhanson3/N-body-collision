@@ -23,6 +23,7 @@ public class ParallelCollision {
 	private static Thread collisionWorker;
 	public static Thread[] workersList;
 	public static CyclicBarrier barrier;
+	private static Boolean gui;
 	
 	public static int ready, workers, curStep;
 
@@ -36,6 +37,15 @@ public class ParallelCollision {
 			bodies    = Integer.parseInt(args[1]);
 			bodySize  = Integer.parseInt(args[2]);
 			timeSteps = Integer.parseInt(args[3]);
+		}
+		
+		gui = false;
+		if (args.length == 5) {
+			if (args[4].equals("true")) {
+				gui = true;
+			} else {
+				gui = false;
+			}
 		}
 		
 		barrier = new CyclicBarrier(workers+1);
@@ -127,9 +137,11 @@ public class ParallelCollision {
 		
 		System.out.printf("Time: %.9f", ((double)(end-start)/1000000000));
 		
-		ColliderGUI gui = new ColliderGUI(body, timeSteps);
-		gui.setVisible(true);
-		gui.repaint();
+		if (gui) {
+			ColliderGUI gui = new ColliderGUI(body, timeSteps);
+			gui.setVisible(true);
+			gui.repaint();
+		}
 	}
 	
 	public static void printAll() throws FileNotFoundException, UnsupportedEncodingException {
