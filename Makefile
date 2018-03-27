@@ -11,6 +11,7 @@ all: classes
 default: classes
 
 classes: $(CLASSES:.java=.class)
+	JC Body.java ColliderGUI.java CollisionWorker.java ParallelCollision.java SequentialCollision.java Worker.java
 
 clean:
 	$(RM) *.class
